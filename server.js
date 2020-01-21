@@ -38,7 +38,7 @@ app.post(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    const { to, from, subject, body } = req.body;
+    const { to, to_name, from, from_name, subject, body } = req.body;
 
     const msg = {
       to: to,
@@ -51,7 +51,7 @@ app.post(
     } catch (error) {
       res.status(500).json({ error: error.toString() });
     }
-    return res.status(200).end();
+    return res.status(200).send(`Email sent to ${to_name} from ${from_name}`);
   }
 );
 
