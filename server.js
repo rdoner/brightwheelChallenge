@@ -2,7 +2,12 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const { check, validationResult } = require("express-validator");
-const { parse } = require('node-html-parser');
+const { parse } = require("node-html-parser");
+const sgMail = require("@sendgrid/mail");
+const dotenv = require("dotenv");
+dotenv.config();
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -38,9 +43,19 @@ app.post(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    let doc = parse(req.body.body);
+    const { to, to_name, from, from_name, subject, body } = req.body;
+    // let doc = parse(body);
 
-    return res.send(doc)
+    const msg = {
+      to: to,
+      from: from,
+      subject: subject,
+    //   text: "and easy to do anywhere, even with Node.js",
+      html: body
+    };
+    sgMail.send(msg);
+    // return res.send(doc);
+    return res.send("success");
   }
 );
 
