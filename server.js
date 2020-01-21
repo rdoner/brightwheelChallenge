@@ -38,14 +38,12 @@ app.post(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    const { to, to_name, from, from_name, subject, body } = req.body;
-    // let doc = parse(body);
+    const { to, from, subject, body } = req.body;
 
     const msg = {
       to: to,
       from: from,
       subject: subject,
-      //   text: "and easy to do anywhere, even with Node.js",
       html: body
     };
     try {
@@ -56,7 +54,5 @@ app.post(
     return res.status(200).end();
   }
 );
-
-// app.listen(process.env.PORT || 8080);
 
 module.exports = app;

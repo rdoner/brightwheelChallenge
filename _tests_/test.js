@@ -1,9 +1,8 @@
-const app = require("../server"); // Link to your server file
+const app = require("../server");
 const supertest = require("supertest");
 const request = supertest(app);
 
 it("Posts to the email endpoint", async done => {
-  // Sends GET Request to /test endpoint
   const response = await request.post("/email").send({
     to: "ryanelliotdoner@gmail.com",
     to_name: "Ryan",
